@@ -66,27 +66,28 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
                 
-                if current_screen == "main_menu":
+                    if current_screen == "main_menu":
                     
-                    if play_button.collidepoint(event.pos):
-                        current_screen = "game_mode_selection"
+                        if play_button.collidepoint(event.pos):
+                            current_screen = "game_mode_selection"
 
-                    elif settings_button.collidepoint(event.pos):
-                        print("Settings")
+                        elif settings_button.collidepoint(event.pos):
+                            print("Settings")
 
-                elif current_screen == "game_mode_selection":
+                    elif current_screen == "game_mode_selection":
 
-                    if pvplayer_button.collidepoint(event.pos):
+                        if pvplayer_button.collidepoint(event.pos):
                         
-                        print("Player vs Player")
+                            print("Player vs Player")
                     
-                    elif pvcomputer_button.collidepoint(event.pos):
+                        elif pvcomputer_button.collidepoint(event.pos):
                         
-                        print("Player vs Computer")
+                            print("Player vs Computer")
 
-                    elif back_button.collidepoint(event.pos):
-                        current_screen = "main_menu"
+                        elif back_button.collidepoint(event.pos):
+                            current_screen = "main_menu"
         
         if current_screen == "main_menu":
             main_menu()
