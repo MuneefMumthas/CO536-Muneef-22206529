@@ -5,14 +5,24 @@ import pygame
 Width = 900
 Height = 900
 
+Rows = 3
+Columns = 3
+
+Square_Size = Width // Columns
+
 #defining the colours for settings
 Black = (0, 0, 0)
 White = (255, 255, 255)
 
+#Line Colours
+Line_Colour_Purple = (189, 120, 196)
+Line_Colour_Red = (255, 153, 153)
+
+#Background Colours
 Light_Purple = (207, 196, 230)
 Light_Red = (250, 198, 206)
 
-
+Line_Colour = Line_Colour_Purple
 bg_colour = Light_Purple
 
 #initialising pygame and setting up the screen
@@ -85,10 +95,24 @@ def settings_menu():
     back_button_text = font.render("Back", True, White)
     screen.blit(back_button_text, (back_button_settings_menu.centerx - back_button_text.get_width() // 2, back_button_settings_menu.centery - back_button_text.get_height() // 2))
 
+#Game Class
+class Game:
+    def __init__(self):
+        self.show_lines()
+
+    def show_lines(self):
+        #Horizontal Lines
+        pygame.draw.line(screen, Line_Colour, (0, Square_Size), (Width, Square_Size), 15)
+        pygame.draw.line(screen, Line_Colour, (0, Height - Square_Size), (Width, Height - Square_Size), 15)
+
+        #Vertical Lines
+        pygame.draw.line(screen, Line_Colour, (Square_Size, 0), (Square_Size, Height), 15)
+        pygame.draw.line(screen, Line_Colour, (Width - Square_Size, 0), (Width - Square_Size, Height), 15)
 
 #main method for the game
 def main():
-    global current_screen, bg_colour
+    global current_screen, bg_colour, Line_Colour
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -112,8 +136,11 @@ def main():
                     elif current_screen == "game_mode_selection":
 
                         if pvplayer_button.collidepoint(event.pos):
-                        
-                            print("Player vs Player")
+                            
+                            #creating the game layout
+                            current_screen = "game"
+                            screen.fill(bg_colour)
+                            game = Game()    
                     
                         elif pvcomputer_button.collidepoint(event.pos):
                         
@@ -128,8 +155,11 @@ def main():
                         if bg_colour_button.collidepoint(event.pos):
                             if bg_colour == Light_Purple:
                                 bg_colour = Light_Red
+                                Line_Colour = Line_Colour_Red
+
                             elif bg_colour == Light_Red:
                                 bg_colour = Light_Purple
+                                Line_Colour = Line_Colour_Purple
     
                         elif back_button_settings_menu.collidepoint(event.pos):
                             current_screen = "main_menu"
