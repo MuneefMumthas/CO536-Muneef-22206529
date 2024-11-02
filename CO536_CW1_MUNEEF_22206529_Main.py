@@ -119,6 +119,7 @@ class Game:
         self.player = 1
         self.show_lines()
 
+    #method to draw the lines on the screen
     def show_lines(self):
         #Horizontal Lines
         pygame.draw.line(screen, Line_Colour, (0, Square_Size), (Width, Square_Size), 15)
@@ -127,6 +128,13 @@ class Game:
         #Vertical Lines
         pygame.draw.line(screen, Line_Colour, (Square_Size, 0), (Square_Size, Height), 15)
         pygame.draw.line(screen, Line_Colour, (Width - Square_Size, 0), (Width - Square_Size, Height), 15)
+
+    #method to switch the player after each turn
+    def switch_player(self):
+        if self.player == 1:
+            self.player = 2
+        else:
+            self.player = 1
 
 #main method for the game
 def main():
@@ -195,6 +203,7 @@ def main():
                         if game.board.is_square_empty(row, col):
                             #marking the square with the player and updating the board (numpy grid)
                             game.board.mark_square(row, col, game.player)
+                            game.switch_player()
                             print(game.board.squares)
         
         if current_screen == "main_menu":
