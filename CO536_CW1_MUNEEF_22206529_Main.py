@@ -104,11 +104,14 @@ class Board:
         self.squares = np.zeros((Rows, Columns))
         print(self.squares)
 
+    def mark_square(self, row, col, player):
+        self.squares[row][col] = player
 
 #Game Class
 class Game:
     def __init__(self):
         self.board = Board()
+        self.player = 1
         self.show_lines()
 
     def show_lines(self):
@@ -174,6 +177,18 @@ def main():
     
                         elif back_button_settings_menu.collidepoint(event.pos):
                             current_screen = "main_menu"
+
+                    #Game        
+                    elif current_screen == "game":
+                        
+                        #getting the row and column of the square clicked
+                        pos = event.pos
+                        row = pos[1] // Square_Size #y axis
+                        col = pos[0] // Square_Size #x axis
+                        
+                        #marking the square with the player and updating the board (numpy grid)
+                        game.board.mark_square(row, col, game.player)
+                        print(game.board.squares)
         
         if current_screen == "main_menu":
             main_menu()
