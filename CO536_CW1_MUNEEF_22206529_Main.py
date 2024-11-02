@@ -1,5 +1,6 @@
 import sys
 import pygame
+import numpy as np
 
 #initialising the variables
 Width = 900
@@ -95,9 +96,19 @@ def settings_menu():
     back_button_text = font.render("Back", True, White)
     screen.blit(back_button_text, (back_button_settings_menu.centerx - back_button_text.get_width() // 2, back_button_settings_menu.centery - back_button_text.get_height() // 2))
 
+#Board Class
+class Board:
+    def __init__(self):
+
+        #creating a 3x3 grid with numpy
+        self.squares = np.zeros((Rows, Columns))
+        print(self.squares)
+
+
 #Game Class
 class Game:
     def __init__(self):
+        self.board = Board()
         self.show_lines()
 
     def show_lines(self):
