@@ -136,6 +136,29 @@ class Game:
         else:
             self.player = 1
 
+    #method to draw and mark the square in the display 
+    #with either cross or circle based on the player
+    def mark_square_in_display(self, row, col):
+        if self.player == 1:
+            
+            #draw cross
+            #Decending Line (\)
+            start_point_descending_line = (col * Square_Size + 50, row * Square_Size + 50 )
+            end_point_descending_line = (col * Square_Size + Square_Size - 50, row * Square_Size + Square_Size - 50)
+            pygame.draw.line(screen, Black, start_point_descending_line, end_point_descending_line, 25)
+        
+            #Ascending Line (/)
+            start_point_ascending_line = (col * Square_Size + Square_Size - 50, row * Square_Size + 50)
+            end_point_ascending_line = (col * Square_Size + 50, row * Square_Size + Square_Size - 50)
+            pygame.draw.line(screen, Black, start_point_ascending_line, end_point_ascending_line, 25)
+
+        elif self.player == 2:
+            
+            #draw circle
+            Radius = Square_Size // 2 * 0.8
+            center = (col * Square_Size + Square_Size // 2, row * Square_Size + Square_Size // 2)
+            pygame.draw.circle(screen, Black, center, Radius, 15)
+
 #main method for the game
 def main():
     global current_screen, bg_colour, Line_Colour
@@ -203,6 +226,7 @@ def main():
                         if game.board.is_square_empty(row, col):
                             #marking the square with the player and updating the board (numpy grid)
                             game.board.mark_square(row, col, game.player)
+                            game.mark_square_in_display(row, col)
                             game.switch_player()
                             print(game.board.squares)
         
