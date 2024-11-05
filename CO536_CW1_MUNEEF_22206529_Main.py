@@ -1,6 +1,7 @@
 import sys
 import pygame
 import numpy as np
+import time
 
 #initialising the variables
 Width = 900
@@ -33,15 +34,22 @@ pygame.display.set_caption("TIC TAC TOE  (CO536_CW1_Muneef_22206529)")
 screen.fill(bg_colour)
 
 #initialising the buttons
+#main menu buttons
 play_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
 settings_button = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
 
+#game mode selection buttons
 pvplayer_button = pygame.Rect(Width // 2 - 150, Height // 2 - 150, 300, 75)
 pvcomputer_button = pygame.Rect(Width // 2 - 150, Height // 2 - 37.5, 300, 75)
 back_button_game_mode_menu = pygame.Rect(Width // 2 - 100, Height // 2 + 75, 200, 75)
 
+#settings buttons
 bg_colour_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
 back_button_settings_menu = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
+
+#game over buttons
+restart_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
+main_menu_button = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
 
 #font for button text
 font = pygame.font.Font(None, 36)
@@ -96,6 +104,18 @@ def settings_menu():
     back_button_text = font.render("Back", True, White)
     screen.blit(back_button_text, (back_button_settings_menu.centerx - back_button_text.get_width() // 2, back_button_settings_menu.centery - back_button_text.get_height() // 2))
 
+#Method to Create the game over screen
+def game_over():
+    screen.fill(bg_colour)
+    
+    pygame.draw.rect(screen, Black, restart_button)
+    restart_text = font.render("Restart", True, White)
+    screen.blit(restart_text, (restart_button.centerx - restart_text.get_width() // 2, restart_button.centery - restart_text.get_height() // 2))
+    
+    pygame.draw.rect(screen, Black, main_menu_button)
+    main_menu_text = font.render("Main Menu", True, White)
+    screen.blit(main_menu_text, (main_menu_button.centerx - main_menu_text.get_width() // 2, main_menu_button.centery - main_menu_text.get_height() // 2))
+
 #Board Class
 class Board:
     def __init__(self):
@@ -104,19 +124,72 @@ class Board:
         self.squares = np.zeros((Rows, Columns))
         print(self.squares)
 
+        #variable to check the number of marked squares
+        self.marked_squares = 0
+        
     #method to mark the square with the player
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
+        self.marked_squares += 1
 
     #method to check if the square is empty
     def is_square_empty(self, row, col):
         return self.squares[row][col] == 0
 
+    #method to check if the board is full
+    def is_board_full(self):
+        return self.marked_squares == 9
+    
+    #method to check if the board is emtry
+    def is_board_empty(self):
+        return self.marked_squares == 0
+    
+    #method to check if the player has won or to get the final state of the game
+    def check_winner(self, show_winner = False):
+
+        #vertical Check
+        for col in range(Columns):
+            if self.squares[0][col] == self.squares[1][col] == self.squares[2][col] != 0:
+                if show_winner:
+                    start_point = (col * Square_Size + Square_Size // 2, 20)
+                    end_point = (col * Square_Size + Square_Size // 2, Height - 20)
+                    pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+                return self.squares[0][col]
+        
+        #Horizontal Check
+        for row in range(Rows):
+            if self.squares[row][0] == self.squares[row][1] == self.squares[row][2] != 0:
+                if show_winner:
+                    start_point = (20, row * Square_Size + Square_Size // 2)
+                    end_point = (Width - 20, row * Square_Size + Square_Size // 2)
+                    pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+                return self.squares[row][0]
+            
+        #Descending diagonal Check (\)
+        if self.squares[0][0] == self.squares[1][1] == self.squares[2][2] != 0:
+            if show_winner:
+                start_point = (20, 20)
+                end_point = (Width - 20, Height - 20)
+                pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15) 
+            return self.squares[0][0]
+        
+        #Ascending Diagonal (/)
+        if self.squares[2][0] == self.squares[1][1] == self.squares[0][2] != 0:
+            if show_winner:
+                start_point = (20, Height - 20)
+                end_point = (Width - 20, 20)
+                pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+            return self.squares[2][0]
+
+        #If there is no win yet
+        return 0
+    
 #Game Class
 class Game:
     def __init__(self):
         self.board = Board()
         self.player = 1
+        self.running = True
         self.show_lines()
 
     #method to draw the lines on the screen
@@ -157,8 +230,27 @@ class Game:
             #draw circle
             Radius = Square_Size // 2 * 0.8
             center = (col * Square_Size + Square_Size // 2, row * Square_Size + Square_Size // 2)
-            pygame.draw.circle(screen, Black, center, Radius, 15)
+            pygame.draw.circle(screen, (0, 0, 128), center, Radius, 25)
 
+    def is_game_over(self):
+        # Checking if there is a winner
+        winner = self.board.check_winner(show_winner=True)
+        if winner != 0:
+            pygame.display.update()  # Update display to show the win line
+            time.sleep(1.5)  # Pause for 1.5 seconds
+            return True
+        
+        # Check if the board is full
+        if self.board.is_board_full():
+            pygame.display.update()
+            time.sleep(1.5) # Pause for 1.5 seconds
+            return True
+        return False
+    
+    def restart(self):
+        screen.fill(bg_colour)
+        self.__init__()
+    
 #main method for the game
 def main():
     global current_screen, bg_colour, Line_Colour
@@ -182,7 +274,7 @@ def main():
                         elif settings_button.collidepoint(event.pos):
                             current_screen = "settings"
 
-                    #Game Mode Menu
+                    #Game Mode Menu Screen
                     elif current_screen == "game_mode_selection":
 
                         if pvplayer_button.collidepoint(event.pos):
@@ -199,7 +291,7 @@ def main():
                         elif back_button_game_mode_menu.collidepoint(event.pos):
                             current_screen = "main_menu"
                     
-                    #Settings Menu
+                    #Settings Menu Screen
                     elif current_screen == "settings":
                         #Switching Background Colour
                         if bg_colour_button.collidepoint(event.pos):
@@ -214,7 +306,7 @@ def main():
                         elif back_button_settings_menu.collidepoint(event.pos):
                             current_screen = "main_menu"
 
-                    #Game        
+                    #Game Screen       
                     elif current_screen == "game":
 
                         #getting the row and column of the square clicked
@@ -229,6 +321,21 @@ def main():
                             game.mark_square_in_display(row, col)
                             game.switch_player()
                             print(game.board.squares)
+
+                            #checking if the game is over
+                            if game.is_game_over():
+                                game.running = False
+                                current_screen = "game_over"
+                                 
+                    #Game Over Screen
+                    elif current_screen == "game_over":
+
+                        if restart_button.collidepoint(event.pos):
+                            game.restart()  
+                            current_screen = "game"
+
+                        elif main_menu_button.collidepoint(event.pos):
+                            current_screen = "main_menu"
         
         if current_screen == "main_menu":
             main_menu()
@@ -236,6 +343,8 @@ def main():
             game_mode_menu()
         elif current_screen == "settings":
             settings_menu()
+        elif current_screen == "game_over":
+            game_over()
 
         pygame.display.update()
 
