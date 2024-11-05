@@ -31,6 +31,8 @@ bg_colour = Light_Purple
 pygame.mixer.init()
 mark_sound = pygame.mixer.Sound("Sounds/mark.wav")
 win_sound = pygame.mixer.Sound("Sounds/win.wav")
+click_sound = pygame.mixer.Sound("Sounds/click.wav")
+click2_sound = pygame.mixer.Sound("Sounds/click2.wav")
 
 #initialising pygame and setting up the screen
 pygame.init()
@@ -279,9 +281,11 @@ def main():
                     
                         if play_button.collidepoint(event.pos):
                             current_screen = "game_mode_selection"
+                            click_sound.play()
 
                         elif settings_button.collidepoint(event.pos):
                             current_screen = "settings"
+                            click_sound.play()
 
                     #Game Mode Menu Screen
                     elif current_screen == "game_mode_selection":
@@ -290,20 +294,24 @@ def main():
                             
                             #creating the game layout
                             current_screen = "game"
+                            click_sound.play()
                             screen.fill(bg_colour)
                             game = Game()    
                     
                         elif pvcomputer_button.collidepoint(event.pos):
                         
                             print("Player vs Computer")
+                            click_sound.play()
 
                         elif back_button_game_mode_menu.collidepoint(event.pos):
+                            click2_sound.play()
                             current_screen = "main_menu"
                     
                     #Settings Menu Screen
                     elif current_screen == "settings":
                         #Switching Background Colour
                         if bg_colour_button.collidepoint(event.pos):
+                            click_sound.play()
                             if bg_colour == Light_Purple:
                                 bg_colour = Light_Red
                                 Line_Colour = Line_Colour_Red
@@ -313,6 +321,7 @@ def main():
                                 Line_Colour = Line_Colour_Purple
     
                         elif back_button_settings_menu.collidepoint(event.pos):
+                            click2_sound.play()
                             current_screen = "main_menu"
 
                     #Game Screen       
@@ -341,10 +350,12 @@ def main():
                     elif current_screen == "game_over":
 
                         if restart_button.collidepoint(event.pos):
+                            click_sound.play()
                             game.restart()  
                             current_screen = "game"
 
                         elif main_menu_button.collidepoint(event.pos):
+                            click2_sound.play()
                             current_screen = "main_menu"
         
         if current_screen == "main_menu":
