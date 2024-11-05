@@ -152,7 +152,7 @@ class Board:
             if self.squares[0][col] == self.squares[1][col] == self.squares[2][col] != 0:
                 if show_winner:
                     start_point = (col * Square_Size + Square_Size // 2, 20)
-                    end_point = (col * Square_Size + Square_Size // 2, Height - 20)
+                    end_point = (col * Square_Size + Square_Size // 2, Height - 2)
                     pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
                 return self.squares[0][col]
         
@@ -218,12 +218,12 @@ class Game:
             #Decending Line (\)
             start_point_descending_line = (col * Square_Size + 50, row * Square_Size + 50 )
             end_point_descending_line = (col * Square_Size + Square_Size - 50, row * Square_Size + Square_Size - 50)
-            pygame.draw.line(screen, Black, start_point_descending_line, end_point_descending_line, 25)
+            pygame.draw.line(screen, (128, 0, 32), start_point_descending_line, end_point_descending_line, 25)
         
             #Ascending Line (/)
             start_point_ascending_line = (col * Square_Size + Square_Size - 50, row * Square_Size + 50)
             end_point_ascending_line = (col * Square_Size + 50, row * Square_Size + Square_Size - 50)
-            pygame.draw.line(screen, Black, start_point_ascending_line, end_point_ascending_line, 25)
+            pygame.draw.line(screen, (128, 0, 32), start_point_ascending_line, end_point_ascending_line, 25)
 
         elif self.player == 2:
             
