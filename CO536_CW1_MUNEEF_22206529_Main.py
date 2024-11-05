@@ -27,6 +27,11 @@ Light_Red = (250, 198, 206)
 Line_Colour = Line_Colour_Purple
 bg_colour = Light_Purple
 
+#Initialising the sounds
+pygame.mixer.init()
+mark_sound = pygame.mixer.Sound("Sounds/mark.wav")
+win_sound = pygame.mixer.Sound("Sounds/win.wav")
+
 #initialising pygame and setting up the screen
 pygame.init()
 screen = pygame.display.set_mode((Width, Height))
@@ -154,6 +159,7 @@ class Board:
                     start_point = (col * Square_Size + Square_Size // 2, 20)
                     end_point = (col * Square_Size + Square_Size // 2, Height - 2)
                     pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+                    win_sound.play()
                 return self.squares[0][col]
         
         #Horizontal Check
@@ -163,6 +169,7 @@ class Board:
                     start_point = (20, row * Square_Size + Square_Size // 2)
                     end_point = (Width - 20, row * Square_Size + Square_Size // 2)
                     pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+                    win_sound.play()
                 return self.squares[row][0]
             
         #Descending diagonal Check (\)
@@ -171,6 +178,7 @@ class Board:
                 start_point = (20, 20)
                 end_point = (Width - 20, Height - 20)
                 pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15) 
+                win_sound.play()
             return self.squares[0][0]
         
         #Ascending Diagonal (/)
@@ -179,6 +187,7 @@ class Board:
                 start_point = (20, Height - 20)
                 end_point = (Width - 20, 20)
                 pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
+                win_sound.play()
             return self.squares[2][0]
 
         #If there is no win yet
@@ -319,6 +328,7 @@ def main():
                             #marking the square with the player and updating the board (numpy grid)
                             game.board.mark_square(row, col, game.player)
                             game.mark_square_in_display(row, col)
+                            mark_sound.play()
                             game.switch_player()
                             print(game.board.squares)
 
