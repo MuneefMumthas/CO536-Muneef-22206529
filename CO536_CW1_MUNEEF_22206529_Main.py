@@ -58,13 +58,20 @@ back_button_settings_menu = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 20
 restart_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
 main_menu_button = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
 
+#difficulty selection buttons
+easy_button = pygame.Rect(Width // 2 - 150, Height // 2 - 150, 300, 75)
+hard_button = pygame.Rect(Width // 2 - 150, Height // 2 - 37.5, 300, 75)
+
 #font for button text
 font = pygame.font.Font(None, 36)
 
 #game state
 current_screen = "main_menu"
 
-#Method to Create the main menu
+
+#Methods to create game screens
+
+#Method to create the main menu
 def main_menu():
     screen.fill(bg_colour)
 
@@ -78,7 +85,7 @@ def main_menu():
     settings_text = font.render("Settings", True, White)
     screen.blit(settings_text, (settings_button.centerx - settings_text.get_width() // 2, settings_button.centery - settings_text.get_height() // 2))
 
-#Method to Create the game mode selection menu
+#Method to create the game mode selection menu
 def game_mode_menu():
     screen.fill(bg_colour)
 
@@ -97,7 +104,7 @@ def game_mode_menu():
     back_text = font.render("Back", True, White)
     screen.blit(back_text, (back_button_game_mode_menu.centerx - back_text.get_width() // 2, back_button_game_mode_menu.centery - back_text.get_height() // 2))
 
-#Method to Create the settings menu
+#Method to create the settings menu
 def settings_menu():
     screen.fill(bg_colour)
 
@@ -111,7 +118,7 @@ def settings_menu():
     back_button_text = font.render("Back", True, White)
     screen.blit(back_button_text, (back_button_settings_menu.centerx - back_button_text.get_width() // 2, back_button_settings_menu.centery - back_button_text.get_height() // 2))
 
-#Method to Create the game over screen
+#Method to create the game over screen
 def game_over():
     screen.fill(bg_colour)
     
@@ -122,6 +129,12 @@ def game_over():
     pygame.draw.rect(screen, Black, main_menu_button)
     main_menu_text = font.render("Main Menu", True, White)
     screen.blit(main_menu_text, (main_menu_button.centerx - main_menu_text.get_width() // 2, main_menu_button.centery - main_menu_text.get_height() // 2))
+
+#Method to create difficulty selection menu for player vs computer
+def difficulty_selection_menu():
+    screen.fill(bg_colour)
+
+
 
 #Board Class
 class Board:
@@ -159,7 +172,7 @@ class Board:
             if self.squares[0][col] == self.squares[1][col] == self.squares[2][col] != 0:
                 if show_winner:
                     start_point = (col * Square_Size + Square_Size // 2, 20)
-                    end_point = (col * Square_Size + Square_Size // 2, Height - 2)
+                    end_point = (col * Square_Size + Square_Size // 2, Height - 20)
                     pygame.draw.line(screen, (0, 0, 0), start_point, end_point, 15)
                     win_sound.play()
                 return self.squares[0][col]
@@ -195,6 +208,9 @@ class Board:
         #If there is no win yet
         return 0
     
+
+
+
 #Game Class
 class Game:
     def __init__(self):
@@ -262,6 +278,9 @@ class Game:
         screen.fill(bg_colour)
         self.__init__()
     
+
+
+
 #main method for the game
 def main():
     global current_screen, bg_colour, Line_Colour
