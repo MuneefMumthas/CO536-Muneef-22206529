@@ -33,6 +33,7 @@ mark_sound = pygame.mixer.Sound("Sounds/mark.wav")
 win_sound = pygame.mixer.Sound("Sounds/win.wav")
 click_sound = pygame.mixer.Sound("Sounds/click.wav")
 click2_sound = pygame.mixer.Sound("Sounds/click2.wav")
+draw_sound = pygame.mixer.Sound("Sounds/draw.wav")
 
 #initialising pygame and setting up the screen
 pygame.init()
@@ -286,6 +287,7 @@ class Game:
         
         # Check if the board is full
         if self.board.is_board_full():
+            draw_sound.play()
             pygame.display.update()
             time.sleep(1.5) # Pause for 1.5 seconds
             return True
@@ -296,7 +298,9 @@ class Game:
         self.__init__()
     
 
-
+#AI Class
+class AI:
+    pass
 
 #main method for the game
 def main():
@@ -345,6 +349,7 @@ def main():
                     
                     #Difficulty Selection Menu Screen
                     elif current_screen == "difficulty_selection":
+                        
                         if back_button_difficulty.collidepoint(event.pos):
                             click2_sound.play()
                             current_screen = "game_mode_selection"
