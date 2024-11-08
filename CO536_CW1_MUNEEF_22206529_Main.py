@@ -59,8 +59,9 @@ restart_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
 main_menu_button = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
 
 #difficulty selection buttons
-easy_button = pygame.Rect(Width // 2 - 150, Height // 2 - 150, 300, 75)
-hard_button = pygame.Rect(Width // 2 - 150, Height // 2 - 37.5, 300, 75)
+easy_button = pygame.Rect(Width // 2 - 225, Height // 2 - 56.25, 200, 75)
+hard_button = pygame.Rect(Width // 2 + 25, Height // 2 - 56.25, 200, 75)
+back_button_difficulty = pygame.Rect(Width // 2 - 100, Height // 2 + 75, 200, 75)
 
 #font for button text
 font = pygame.font.Font(None, 36)
@@ -115,8 +116,8 @@ def settings_menu():
 
     #Back button settings menu
     pygame.draw.rect(screen, Black, back_button_settings_menu)
-    back_button_text = font.render("Back", True, White)
-    screen.blit(back_button_text, (back_button_settings_menu.centerx - back_button_text.get_width() // 2, back_button_settings_menu.centery - back_button_text.get_height() // 2))
+    back_text_2 = font.render("Back", True, White)
+    screen.blit(back_text_2, (back_button_settings_menu.centerx - back_text_2.get_width() // 2, back_button_settings_menu.centery - back_text_2.get_height() // 2))
 
 #Method to create the game over screen
 def game_over():
@@ -133,6 +134,22 @@ def game_over():
 #Method to create difficulty selection menu for player vs computer
 def difficulty_selection_menu():
     screen.fill(bg_colour)
+
+    #Easy button
+    pygame.draw.rect(screen, Black, easy_button)
+    easy_text = font.render("Easy", True, White)
+    screen.blit(easy_text, (easy_button.centerx - easy_text.get_width() // 2, easy_button.centery - easy_text.get_height() // 2))
+
+    #Hard button
+    pygame.draw.rect(screen, Black, hard_button)
+    hard_text = font.render("Hard", True, White)
+    screen.blit(hard_text, (hard_button.centerx - hard_text.get_width() // 2, hard_button.centery - hard_text.get_height() // 2))
+
+    #Back button
+    pygame.draw.rect(screen, Black, back_button_difficulty)
+    back_text_3 = font.render("Back", True, White)
+    screen.blit(back_text_3, (back_button_difficulty.centerx - back_text_3.get_width() // 2, back_button_difficulty.centery - back_text_3.get_height() // 2))
+
 
 
 
@@ -319,13 +336,19 @@ def main():
                     
                         elif pvcomputer_button.collidepoint(event.pos):
                         
-                            print("Player vs Computer")
+                            current_screen = "difficulty_selection"
                             click_sound.play()
 
                         elif back_button_game_mode_menu.collidepoint(event.pos):
                             click2_sound.play()
                             current_screen = "main_menu"
                     
+                    #Difficulty Selection Menu Screen
+                    elif current_screen == "difficulty_selection":
+                        if back_button_difficulty.collidepoint(event.pos):
+                            click2_sound.play()
+                            current_screen = "game_mode_selection"
+                            
                     #Settings Menu Screen
                     elif current_screen == "settings":
                         #Switching Background Colour
@@ -385,6 +408,8 @@ def main():
             settings_menu()
         elif current_screen == "game_over":
             game_over()
+        elif current_screen == "difficulty_selection":
+            difficulty_selection_menu()
 
         pygame.display.update()
 
