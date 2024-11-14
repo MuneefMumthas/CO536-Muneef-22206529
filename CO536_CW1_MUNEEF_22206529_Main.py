@@ -2,6 +2,7 @@ import sys
 import pygame
 import numpy as np
 import time
+import random
 
 #initialising the variables
 Width = 900
@@ -174,6 +175,16 @@ class Board:
     def is_square_empty(self, row, col):
         return self.squares[row][col] == 0
 
+    #method to get the empty squares in the board (numpy grid - for AI)
+    def get_empty_squares(self):
+        available_empty_squares = []
+        for row in range(Rows):
+            for col in range(Columns):
+                if self.is_square_empty(row, col):
+                    available_empty_squares.append((row, col))
+        
+        return available_empty_squares
+
     #method to check if the board is full
     def is_board_full(self):
         return self.marked_squares == 9
@@ -232,6 +243,25 @@ class AI:
     def __init__(self, difficulty="easy", player=2):
         self.difficulty = difficulty
         self.player = player
+
+        #Random AI - Method to select a random empty square
+    def random_ai(self, board):
+        empty_squares = board.get_empty_squares()
+        Chosen_Index = random.randrange(0, len(empty_squares))
+
+        return empty_squares[Chosen_Index]
+    
+    def evaluate(self, main_board):
+
+        #Easy Mode - Random Ai
+        if self.difficulty == "easy":
+            move = self.random_ai(main_board)
+
+        else:
+            pass
+
+        return move
+    
         
     
 
