@@ -227,7 +227,13 @@ class Board:
         return 0
     
 
-
+#AI class
+class AI:
+    def __init__(self, difficulty="easy", player=2):
+        self.difficulty = difficulty
+        self.player = player
+        
+    
 
 #Game Class
 class Game:
