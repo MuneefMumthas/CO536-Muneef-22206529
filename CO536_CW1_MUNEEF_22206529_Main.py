@@ -269,8 +269,10 @@ class AI:
 class Game:
     def __init__(self):
         self.board = Board()
+        self.ai = AI()
         self.player = 1
         self.running = True
+        self.game_mode = "pvp"
         self.show_lines()
 
     #method to draw the lines on the screen
@@ -334,10 +336,6 @@ class Game:
         self.__init__()
     
 
-#AI Class
-class AI:
-    pass
-
 #main method for the game
 def main():
     global current_screen, bg_colour, Line_Colour
@@ -348,10 +346,12 @@ def main():
                 pygame.quit()
                 sys.exit()
                 #mouse click event
-            elif event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONUP:
+                
+
                 #left click only
                 if event.button == 1:
-                
+
                     #Main Menu
                     if current_screen == "main_menu":
                     
@@ -373,6 +373,7 @@ def main():
                             click_sound.play()
                             screen.fill(bg_colour)
                             game = Game()    
+                            game.game_mode = "pvp"
                     
                         elif pvcomputer_button.collidepoint(event.pos):
                         
@@ -386,7 +387,14 @@ def main():
                     #Difficulty Selection Menu Screen
                     elif current_screen == "difficulty_selection":
                         
-                        if back_button_difficulty.collidepoint(event.pos):
+                        if easy_button.collidepoint(event.pos):
+                            click_sound.play()
+                            current_screen = "game"
+                            screen.fill(bg_colour)
+                            game = Game()
+                            game.game_mode = "ai_game"
+
+                        elif back_button_difficulty.collidepoint(event.pos):
                             click2_sound.play()
                             current_screen = "game_mode_selection"
                             
@@ -407,9 +415,8 @@ def main():
                             click2_sound.play()
                             current_screen = "main_menu"
 
-                    #Game Screen       
-                    elif current_screen == "game":
-
+                    #PVP Game Screen       
+                    elif current_screen == "game" and game.game_mode == "pvp":
                         #getting the row and column of the square clicked
                         pos = event.pos
                         row = pos[1] // Square_Size #y axis
@@ -428,7 +435,8 @@ def main():
                             if game.is_game_over():
                                 game.running = False
                                 current_screen = "game_over"
-                                 
+                    
+            
                     #Game Over Screen
                     elif current_screen == "game_over":
 
@@ -451,6 +459,35 @@ def main():
             game_over()
         elif current_screen == "difficulty_selection":
             difficulty_selection_menu()
+
+        elif current_screen == "game" and game.game_mode == "ai_game":
+            pygame.display.update() 
+
+            if game.player == game.ai.player:
+                row, col = game.ai.evaluate(game.board)
+
+                game.board.mark_square(row, col, game.ai.player)
+                game.mark_square_in_display(row, col)
+                mark_sound.play()
+                game.switch_player()
+                print(game.board.squares)
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                
+
+                #left click only
+                if event.button == 1:
+                    #getting the row and column of the square clicked
+                    pos = event.pos
+                    row = pos[1] // Square_Size #y axis
+                    col = pos[0] // Square_Size #x axis
+                    if game.board.is_square_empty(row, col):
+                            #marking the square with the player and updating the board (numpy grid)
+                            game.board.mark_square(row, col, game.player)
+                            game.mark_square_in_display(row, col)
+                            mark_sound.play()
+                            game.switch_player()
+                            print(game.board.squares)
 
         pygame.display.update()
 
