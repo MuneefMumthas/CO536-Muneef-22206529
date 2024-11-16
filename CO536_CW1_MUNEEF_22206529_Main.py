@@ -332,20 +332,26 @@ class Game:
         return False
     
     def restart(self):
+
         screen.fill(bg_colour)
+        self.board = Board()
+        self.ai = AI()
+        self.player = 1
+        self.running = True
+        self.show_lines()
+
         if self.game_mode == "ai_game":
-            self.__init__()
             self.game_mode = "ai_game"
 
-        elif self.game_mode == "pvp":
-            self.__init__()
+        else:
             self.game_mode = "pvp"
     
 
 #main method for the game
 def main():
     global current_screen, bg_colour, Line_Colour
-    
+    game = Game()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -377,9 +383,9 @@ def main():
                             #creating the game layout
                             current_screen = "game"
                             click_sound.play()
-                            screen.fill(bg_colour)
-                            game = Game()    
+                            screen.fill(bg_colour)    
                             game.game_mode = "pvp"
+                            game.restart()
                     
                         elif pvcomputer_button.collidepoint(event.pos):
                         
@@ -397,8 +403,8 @@ def main():
                             click_sound.play()
                             current_screen = "game"
                             screen.fill(bg_colour)
-                            game = Game()
                             game.game_mode = "ai_game"
+                            game.restart()
 
 
                         elif back_button_difficulty.collidepoint(event.pos):
@@ -429,19 +435,20 @@ def main():
                         row = pos[1] // Square_Size #y axis
                         col = pos[0] // Square_Size #x axis
                         
-                        #allowing to mark the square only if it is empty
-                        if game.board.is_square_empty(row, col):
-                            #marking the square with the player and updating the board (numpy grid)
-                            game.board.mark_square(row, col, game.player)
-                            game.mark_square_in_display(row, col)
-                            mark_sound.play()
-                            game.switch_player()
-                            print(game.board.squares)
+                        if 0 <= row < 3 and 0 <= col < 3:
+                            #allowing to mark the square only if it is empty
+                            if game.board.is_square_empty(row, col):
+                                #marking the square with the player and updating the board (numpy grid)
+                                game.board.mark_square(row, col, game.player)
+                                game.mark_square_in_display(row, col)
+                                mark_sound.play()
+                                game.switch_player()
+                                print(game.board.squares)
 
-                            #checking if the game is over
-                            if game.is_game_over():
-                                game.running = False
-                                current_screen = "game_over"
+                                #checking if the game is over
+                                if game.is_game_over():
+                                    game.running = False
+                                    current_screen = "game_over"
                     
                     #Player input for Game Screen in ai mode 
                     elif current_screen == "game" and game.game_mode == "ai_game" and game.player == 1:
@@ -451,19 +458,20 @@ def main():
                         row = pos[1] // Square_Size #y axis
                         col = pos[0] // Square_Size #x axis
                         
-                        #allowing to mark the square only if it is empty
-                        if game.board.is_square_empty(row, col):
-                            #marking the square with the player and updating the board (numpy grid)
-                            game.board.mark_square(row, col, game.player)
-                            game.mark_square_in_display(row, col)
-                            mark_sound.play()
-                            game.switch_player()
-                            print(game.board.squares)
+                        if 0 <= row < 3 and 0 <= col < 3:
+                            #allowing to mark the square only if it is empty
+                            if game.board.is_square_empty(row, col):
+                                #marking the square with the player and updating the board (numpy grid)
+                                game.board.mark_square(row, col, game.player)
+                                game.mark_square_in_display(row, col)
+                                mark_sound.play()
+                                game.switch_player()
+                                print(game.board.squares)
 
-                            #checking if the game is over
-                            if game.is_game_over():
-                                game.running = False
-                                current_screen = "game_over"
+                                #checking if the game is over
+                                if game.is_game_over():
+                                    game.running = False
+                                    current_screen = "game_over"
             
                     #Game Over Screen
                     elif current_screen == "game_over":
