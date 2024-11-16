@@ -360,7 +360,6 @@ def main():
                 #mouse click event
             if event.type == pygame.MOUSEBUTTONUP:
                 
-
                 #left click only
                 if event.button == 1:
 
@@ -406,6 +405,8 @@ def main():
                             game.game_mode = "ai_game"
                             game.restart()
 
+                        elif hard_button.collidepoint(event.pos):    
+                            print("Hard")
 
                         elif back_button_difficulty.collidepoint(event.pos):
                             click2_sound.play()
