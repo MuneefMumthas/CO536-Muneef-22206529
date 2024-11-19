@@ -479,8 +479,9 @@ def main():
 
                         if restart_button.collidepoint(event.pos):
                             click_sound.play()
-                            game.restart()  
                             current_screen = "game"
+                            game.restart()  
+                            
 
                         elif main_menu_button.collidepoint(event.pos):
                             click2_sound.play()
