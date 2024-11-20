@@ -71,86 +71,45 @@ font = pygame.font.Font(None, 36)
 #game state
 current_screen = "main_menu"
 
+#Method to draw buttons to the screen
+def draw_button(button, text, color=Black, text_color=White):
+    pygame.draw.rect(screen, color, button)
+    text_surface = font.render(text, True, text_color)
+    screen.blit(text_surface, (button.centerx - text_surface.get_width() // 2, button.centery - text_surface.get_height() // 2))
 
 #Methods to create game screens
 
 #Method to create the main menu
 def main_menu():
     screen.fill(bg_colour)
-
-    #Play button
-    pygame.draw.rect(screen, Black, play_button)
-    play_text = font.render("Play", True, White)
-    screen.blit(play_text, (play_button.centerx - play_text.get_width() // 2, play_button.centery - play_text.get_height() // 2))
-
-    #Settings button
-    pygame.draw.rect(screen, Black, settings_button)
-    settings_text = font.render("Settings", True, White)
-    screen.blit(settings_text, (settings_button.centerx - settings_text.get_width() // 2, settings_button.centery - settings_text.get_height() // 2))
+    draw_button(play_button, "Play")
+    draw_button(settings_button, "Settings")
 
 #Method to create the game mode selection menu
 def game_mode_menu():
     screen.fill(bg_colour)
-
-    #Player vs Player button
-    pygame.draw.rect(screen, Black, pvplayer_button)
-    pvplayer_text = font.render("Player vs Player", True, White)
-    screen.blit(pvplayer_text, (pvplayer_button.centerx - pvplayer_text.get_width() // 2, pvplayer_button.centery - pvplayer_text.get_height() // 2))
-
-    #Player vs Computer button
-    pygame.draw.rect(screen, Black, pvcomputer_button)
-    pvcomputer_text = font.render("Player vs Computer", True, White)
-    screen.blit(pvcomputer_text, (pvcomputer_button.centerx - pvcomputer_text.get_width() // 2, pvcomputer_button.centery - pvcomputer_text.get_height() // 2))
-
-    #Back button game mode menu
-    pygame.draw.rect(screen, Black, back_button_game_mode_menu)
-    back_text = font.render("Back", True, White)
-    screen.blit(back_text, (back_button_game_mode_menu.centerx - back_text.get_width() // 2, back_button_game_mode_menu.centery - back_text.get_height() // 2))
+    draw_button(pvplayer_button, "Player vs Player")
+    draw_button(pvcomputer_button, "Player vs Computer")
+    draw_button(back_button_game_mode_menu, "Back")
 
 #Method to create the settings menu
 def settings_menu():
     screen.fill(bg_colour)
-
-    #Background  button
-    pygame.draw.rect(screen, Black, bg_colour_button)
-    bg_colour_text = font.render("Switch Colour", True, White)
-    screen.blit(bg_colour_text, (bg_colour_button.centerx - bg_colour_text.get_width() // 2, bg_colour_button.centery - bg_colour_text.get_height() // 2))
-
-    #Back button settings menu
-    pygame.draw.rect(screen, Black, back_button_settings_menu)
-    back_text_2 = font.render("Back", True, White)
-    screen.blit(back_text_2, (back_button_settings_menu.centerx - back_text_2.get_width() // 2, back_button_settings_menu.centery - back_text_2.get_height() // 2))
+    draw_button(bg_colour_button, "Switch Colour")
+    draw_button(back_button_settings_menu, "Back")
 
 #Method to create the game over screen
 def game_over():
     screen.fill(bg_colour)
-    
-    pygame.draw.rect(screen, Black, restart_button)
-    restart_text = font.render("Restart", True, White)
-    screen.blit(restart_text, (restart_button.centerx - restart_text.get_width() // 2, restart_button.centery - restart_text.get_height() // 2))
-    
-    pygame.draw.rect(screen, Black, main_menu_button)
-    main_menu_text = font.render("Main Menu", True, White)
-    screen.blit(main_menu_text, (main_menu_button.centerx - main_menu_text.get_width() // 2, main_menu_button.centery - main_menu_text.get_height() // 2))
+    draw_button(restart_button, "Restart")
+    draw_button(main_menu_button, "Main Menu")
 
 #Method to create difficulty selection menu for player vs computer
 def difficulty_selection_menu():
     screen.fill(bg_colour)
-
-    #Easy button
-    pygame.draw.rect(screen, Black, easy_button)
-    easy_text = font.render("Easy", True, White)
-    screen.blit(easy_text, (easy_button.centerx - easy_text.get_width() // 2, easy_button.centery - easy_text.get_height() // 2))
-
-    #Hard button
-    pygame.draw.rect(screen, Black, hard_button)
-    hard_text = font.render("Hard", True, White)
-    screen.blit(hard_text, (hard_button.centerx - hard_text.get_width() // 2, hard_button.centery - hard_text.get_height() // 2))
-
-    #Back button
-    pygame.draw.rect(screen, Black, back_button_difficulty)
-    back_text_3 = font.render("Back", True, White)
-    screen.blit(back_text_3, (back_button_difficulty.centerx - back_text_3.get_width() // 2, back_button_difficulty.centery - back_text_3.get_height() // 2))
+    draw_button(easy_button, "Easy")
+    draw_button(hard_button, "Hard")
+    draw_button(back_button_difficulty, "Back")
 
 
 
@@ -193,7 +152,7 @@ class Board:
     def is_board_empty(self):
         return self.marked_squares == 0
     
-    #method to check if the player has won or to get the final state of the game
+    #method to check if the player has won or to get the final state of the game. Also returns the winner
     def check_winner(self, show_winner = False):
 
         #vertical Check
@@ -251,15 +210,35 @@ class AI:
 
         return empty_squares[Chosen_Index]
     
+        #Minimax AI - Method to select the best move based on the minimax algorithm
+    def minimax(self, board, maximizing):
+
+        #Base case to check the final state of the game
+        case = board.check_winner()
+
+        # AI (player 2) wins
+        if case == 2:
+            return 1
+        
+        # Human (player 1) wins
+        elif case == 1:
+            return -1
+        
+        # Draw
+        elif board.is_board_full():
+            return 0
+        
+        
+
     def evaluate(self, main_board):
 
         #Easy Mode - Random Ai
         if self.difficulty == "easy":
             move = self.random_ai(main_board)
 
-        else:
-            pass
-
+        elif self.difficulty == "hard":
+            self.minimax(main_board, False)
+            
         return move
     
         
