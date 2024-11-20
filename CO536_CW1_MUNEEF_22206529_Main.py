@@ -290,6 +290,7 @@ class Game:
         self.player = 1
         self.running = True
         self.game_mode = "pvp"
+        self.ai_difficulty = "easy"
         self.show_lines()
 
     #method to draw the lines on the screen
@@ -362,6 +363,12 @@ class Game:
 
         else:
             self.game_mode = "pvp"
+
+        if self.ai_difficulty == "hard":
+            self.ai.difficulty = "hard"
+
+        elif self.ai_difficulty == "easy":
+            self.ai.difficulty = "easy"
     
 
 #main method for the game
@@ -422,6 +429,7 @@ def main():
                             game.game_mode = "ai_game"
                             game.restart()
                             game.ai.difficulty = "easy"
+                            game.ai_difficulty = "easy"
 
                         elif hard_button.collidepoint(event.pos):    
                             click_sound.play()
@@ -430,6 +438,7 @@ def main():
                             game.game_mode = "ai_game"
                             game.restart()
                             game.ai.difficulty = "hard"
+                            game.ai_difficulty = "hard"
 
                         elif back_button_difficulty.collidepoint(event.pos):
                             click2_sound.play()
@@ -503,7 +512,8 @@ def main():
                         if restart_button.collidepoint(event.pos):
                             click_sound.play()
                             current_screen = "game"
-                            game.restart()  
+                            game.restart() 
+
                             
 
                         elif main_menu_button.collidepoint(event.pos):
