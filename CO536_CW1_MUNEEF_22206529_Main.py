@@ -62,8 +62,9 @@ restart_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
 main_menu_button = pygame.Rect(Width // 2 - 100, Height // 2 + 37.5, 200, 75)
 
 #difficulty selection buttons
-easy_button = pygame.Rect(Width // 2 - 225, Height // 2 - 56.25, 200, 75)
-hard_button = pygame.Rect(Width // 2 + 25, Height // 2 - 56.25, 200, 75)
+easy_button = pygame.Rect(Width // 2 - 325, Height // 2 - 56.25, 200, 75)
+medium_button = pygame.Rect(Width // 2 - 100, Height // 2 - 56.25, 200, 75)
+hard_button = pygame.Rect(Width // 2 + 125, Height // 2 - 56.25, 200, 75)
 back_button_difficulty = pygame.Rect(Width // 2 - 100, Height // 2 + 75, 200, 75)
 
 #font for button text
@@ -109,6 +110,7 @@ def game_over():
 def difficulty_selection_menu():
     screen.fill(bg_colour)
     draw_button(easy_button, "Easy")
+    draw_button(medium_button, "Medium")
     draw_button(hard_button, "Hard")
     draw_button(back_button_difficulty, "Back")
 
@@ -203,6 +205,7 @@ class AI:
     def __init__(self):
         self.difficulty = "easy"
         self.player = 2
+        self.ai_mode = random.choice(["random", "minimax"])
 
         #Random AI - Method to select a random empty square
     def random_ai(self, board):
@@ -273,6 +276,18 @@ class AI:
 
         elif self.difficulty == "hard":
             eval, move = self.minimax(main_board, True)
+
+        elif self.difficulty == "medium":
+            #random choice between random and minimax at the start and then switch between them after each turn.
+            if self.ai_mode == "random":
+                eval = "Random"
+                move = self.random_ai(main_board)
+                self.ai_mode = "minimax"
+
+            elif self.ai_mode == "minimax":
+                eval, move = self.minimax(main_board, True)
+                self.ai_mode = "random"
+            
         
         #printing the move and evaluation for debugging
         print(f"AI chose to mark square {move} with evaluation {eval}")
@@ -369,6 +384,9 @@ class Game:
 
         elif self.ai_difficulty == "easy":
             self.ai.difficulty = "easy"
+
+        elif self.ai_difficulty == "medium":
+            self.ai.difficulty = "medium"
     
     # method to display the winner
     def display_winner(self):
@@ -450,6 +468,15 @@ def main():
                             game.restart()
                             game.ai.difficulty = "easy"
                             game.ai_difficulty = "easy"
+
+                        elif medium_button.collidepoint(event.pos):
+                            click_sound.play()
+                            current_screen = "game"
+                            screen.fill(bg_colour)
+                            game.game_mode = "ai_game"
+                            game.restart()
+                            game.ai.difficulty = "medium"
+                            game.ai_difficulty = "medium"
 
                         elif hard_button.collidepoint(event.pos):    
                             click_sound.play()
