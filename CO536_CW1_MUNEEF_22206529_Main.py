@@ -370,6 +370,26 @@ class Game:
         elif self.ai_difficulty == "easy":
             self.ai.difficulty = "easy"
     
+    # method to display the winner
+    def display_winner(self):
+        winner = self.board.check_winner()
+        if winner == 1 and self.game_mode == "pvp":
+            text = font.render("Player 1 Wins!", True, (0, 0, 0))
+            
+        elif winner == 2 and self.game_mode == "pvp":
+            text = font.render("Player 2 Wins!", True, (0, 0, 0))
+
+        elif winner == 1 and self.game_mode == "ai_game":
+            text = font.render("Player Wins!", True, (0, 0, 0))
+        
+        elif winner == 2 and self.game_mode == "ai_game":
+            text = font.render("AI Wins!", True, (0, 0, 0))
+
+        elif winner == 0:
+            text = font.render("It's a Draw!", True, (0, 0, 0))
+        
+        screen.blit(text, (Width // 2 - text.get_width() // 2, Height // 2 - text.get_height() // 2 - 150))
+    
 
 #main method for the game
 def main():
@@ -528,6 +548,7 @@ def main():
             settings_menu()
         elif current_screen == "game_over":
             game_over()
+            game.display_winner()
         elif current_screen == "difficulty_selection":
             difficulty_selection_menu()
 
