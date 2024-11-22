@@ -7,8 +7,10 @@ import copy
 
 from constants import *
 from game import Game
+import config
 
 game = Game()
+
 
 
 #initialising the buttons
@@ -171,10 +173,12 @@ def main():
                             if bg_colour == Light_Purple:
                                 bg_colour = Light_Red
                                 Line_Colour = Line_Colour_Red
+                                config.current_theme = "red"
 
                             elif bg_colour == Light_Red:
                                 bg_colour = Light_Purple
                                 Line_Colour = Line_Colour_Purple
+                                config.current_theme = "purple"
     
                         elif back_button_settings_menu.collidepoint(event.pos):
                             click2_sound.play()

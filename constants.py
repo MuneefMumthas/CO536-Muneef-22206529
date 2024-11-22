@@ -24,6 +24,8 @@ Light_Red = (250, 198, 206)
 Line_Colour = Line_Colour_Purple
 bg_colour = Light_Purple
 
+current_theme = "purple"
+
 #font for button text
 pygame.font.init()
 font = pygame.font.Font(None, 36)

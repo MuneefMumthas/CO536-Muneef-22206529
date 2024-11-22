@@ -8,6 +8,7 @@ import copy
 from board import Board 
 from ai import AI
 from constants import *
+import config
 
 #Game Class
 class Game:
@@ -22,6 +23,13 @@ class Game:
 
     #method to draw the lines on the screen
     def show_lines(self):
+
+        if config.current_theme == "purple":
+            Line_Colour = Line_Colour_Purple
+
+        elif config.current_theme == "red":
+            Line_Colour = Line_Colour_Red
+
         #Horizontal Lines
         pygame.draw.line(screen, Line_Colour, (0, Square_Size), (Width, Square_Size), 15)
         pygame.draw.line(screen, Line_Colour, (0, Height - Square_Size), (Width, Height - Square_Size), 15)
@@ -77,6 +85,12 @@ class Game:
         return False
     
     def restart(self):
+
+        if config.current_theme == "purple":
+            bg_colour = Light_Purple
+
+        elif config.current_theme == "red":
+            bg_colour = Light_Red
 
         screen.fill(bg_colour)
         self.board = Board()
