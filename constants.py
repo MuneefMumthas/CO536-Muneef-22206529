@@ -32,11 +32,11 @@ font = pygame.font.Font(None, 36)
 
 #Initialising the sounds
 pygame.mixer.init()
-mark_sound = pygame.mixer.Sound("Sounds/mark.wav")
-win_sound = pygame.mixer.Sound("Sounds/win.wav")
-click_sound = pygame.mixer.Sound("Sounds/click.wav")
-click2_sound = pygame.mixer.Sound("Sounds/click2.wav")
-draw_sound = pygame.mixer.Sound("Sounds/draw.wav")
+mark_sound = pygame.mixer.Sound("Sounds/mark.mp3")
+win_sound = pygame.mixer.Sound("Sounds/win.mp3")
+click_sound = pygame.mixer.Sound("Sounds/click.mp3")
+click2_sound = pygame.mixer.Sound("Sounds/click2.mp3")
+draw_sound = pygame.mixer.Sound("Sounds/draw.mp3")
 
 #initialising pygame and setting up the screen
 pygame.init()
