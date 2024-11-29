@@ -71,16 +71,17 @@ class Game:
     def is_game_over(self):
         # Checking if there is a winner
         winner = self.board.check_winner(show_winner=True)
+
         if winner != 0:
             pygame.display.update()  # Update display to show the win line
-            time.sleep(1.5)  # Pause for 1.5 seconds
+            #time.sleep(1.5)  # This is replaced with await asyncio.sleep(1.5) in main.py
             return True
         
         # Check if the board is full
         if self.board.is_board_full():
             draw_sound.play()
             pygame.display.update()
-            time.sleep(1.5) # Pause for 1.5 seconds
+            #time.sleep(1.5) # This is replaced with await asyncio.sleep(1.5) in main.py
             return True
         return False
     
@@ -106,8 +107,8 @@ class Game:
         else:
             self.game_mode = "pvp"
 
-        if self.ai_difficulty == "hard":
-            self.ai.difficulty = "hard"
+        if self.ai_difficulty == "impossible":
+            self.ai.difficulty = "impossible"
 
         elif self.ai_difficulty == "easy":
             self.ai.difficulty = "easy"

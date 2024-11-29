@@ -79,7 +79,7 @@ class AI:
             eval = "Random"
             move = self.random_ai(main_board)
 
-        elif self.difficulty == "hard":
+        elif self.difficulty == "impossible":
             eval, move = self.minimax(main_board, True)
 
         elif self.difficulty == "medium":
