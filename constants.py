@@ -1,3 +1,11 @@
+# Name: Muneef Ahamed Mohamed Mumthas
+# Student ID: 22206529
+# Game Title: Tic Tac Toe
+
+# constants.py - This file is used to store the constants used in the game such as 
+# colours, screen size, line colours, background colours, font, sounds and initialising pygame.
+# This file is imported in other files to use the constants.
+
 import pygame
 
 #initialising the variables

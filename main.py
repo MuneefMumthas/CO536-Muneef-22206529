@@ -1,15 +1,25 @@
+# Name: Muneef Ahamed Mohamed Mumthas
+# Student ID: 22206529
+# Game Title: Tic Tac Toe
+
+# main.py - This is the main file for the game, containing the main method and the game loop.
+# This also includes the methods to create the game screens and the buttons for the game.
+
+# Importing pygame and sys
 import sys
 import pygame
-import numpy as np
-import time
-import random
-import copy
+
+# Importing asyncio to make the game's main method asynchronous. 
+# This allows for non-blocking operations, enabling compatibility with pygbag, 
+# which is used to build and deploy the game as a web application.
 import asyncio
 
+# Importing the game class and the constants.
 from constants import *
 from game import Game
 import config
 
+# instance of the game class
 game = Game()
 
 
@@ -271,8 +281,9 @@ async def main():
                 pygame.display.update()
                 await asyncio.sleep(0.5)
                 pygame.display.update()
+                
+                #marking the square with the AI player and updating the board (numpy grid)
                 row, col = game.ai.evaluate(game.board)
-
                 game.board.mark_square(row, col, game.ai.player)
                 game.mark_square_in_display(row, col)
                 mark_sound.play()

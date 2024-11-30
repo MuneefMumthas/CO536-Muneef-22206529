@@ -1,10 +1,14 @@
-import sys
+# Name: Muneef Ahamed Mohamed Mumthas
+# Student ID: 22206529
+# Game Title: Tic Tac Toe
+
+# board.py - This file is used to store the Board class which is used to implement the board logic for the game using numpy arrays.
+
+#Importing pygame and numpy
 import pygame
 import numpy as np
-import time
-import random
-import copy
 
+#Importing constants
 from constants import *
 
 #Board Class
@@ -46,6 +50,8 @@ class Board:
         return self.marked_squares == 0
     
     #method to check if the player has won or to get the final state of the game. Also returns the winner
+    #it works by checking the rows, columns and diagonals of the board for same values of the player (1 or 2) and returns the winner if they are the same
+    #if there is no winner, it returns 0.
     def check_winner(self, show_winner = False):
 
         #vertical Check

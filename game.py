@@ -1,10 +1,13 @@
-import sys
-import pygame
-import numpy as np
-import time
-import random
-import copy
+# Name: Muneef Ahamed Mohamed Mumthas
+# Student ID: 22206529
+# Game Title: Tic Tac Toe
 
+# game.py - This file is used to store the Game class which is used to create the game object and to implement the game logic.
+
+# Importing pygame
+import pygame
+
+# Importing the required files
 from board import Board 
 from ai import AI
 from constants import *
@@ -24,6 +27,7 @@ class Game:
     #method to draw the lines on the screen
     def show_lines(self):
 
+        #Setting the line colour based on the current theme
         if config.current_theme == "blue":
             Line_Colour = Line_Colour_Steel
 
@@ -50,6 +54,7 @@ class Game:
 
     #method to draw and mark the square in the display 
     #with either cross or circle based on the player
+    #the colour of the cross and circle are constant and not theme based
     def mark_square_in_display(self, row, col):
         if self.player == 1:
             
@@ -89,7 +94,8 @@ class Game:
         return False
     
     def restart(self):
-
+        
+        #Setting the background colour based on the current theme
         if config.current_theme == "blue":
             bg_colour = Light_Blue
 
@@ -107,6 +113,7 @@ class Game:
         self.show_lines()
 
 
+        # setting the game mode and difficulty based on current mode and difficulty.
         if self.game_mode == "ai_game":
             self.game_mode = "ai_game"
 
@@ -122,7 +129,7 @@ class Game:
         elif self.ai_difficulty == "medium":
             self.ai.difficulty = "medium"
     
-    # method to display the winner
+    # method to display the winner of the game
     def display_winner(self):
         winner = self.board.check_winner()
         if winner == 1 and self.game_mode == "pvp":
@@ -142,7 +149,7 @@ class Game:
         
         screen.blit(text, (Width // 2 - text.get_width() // 2, Height // 2 - text.get_height() // 2 - 150))
     
-    #method to display current game mode and difficulty
+    # method to display current game mode and difficulty
     def display_game_mode(self):
         if self.game_mode == "pvp":
             game_mode_text = font.render("Player vs Player", True, (0, 0, 0))
