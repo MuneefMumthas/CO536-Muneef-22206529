@@ -1,1 +1,1 @@
-current_theme = "purple"
+current_theme = "blue"

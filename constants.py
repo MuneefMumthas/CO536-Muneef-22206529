@@ -14,17 +14,18 @@ Black = (0, 0, 0)
 White = (255, 255, 255)
 
 #Line Colours
+Line_Colour_Steel = (112, 128, 144)
 Line_Colour_Purple = (189, 120, 196)
 Line_Colour_Red = (255, 153, 153)
 
 #Background Colours
+Light_Blue = (176, 224, 230)
 Light_Purple = (207, 196, 230)
 Light_Red = (250, 198, 206)
 
-Line_Colour = Line_Colour_Purple
-bg_colour = Light_Purple
+Line_Colour = Line_Colour_Steel
+bg_colour = Light_Blue
 
-current_theme = "purple"
 
 #font for button text
 pygame.font.init()

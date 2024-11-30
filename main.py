@@ -13,7 +13,6 @@ import config
 game = Game()
 
 
-
 #initialising the buttons
 #main menu buttons
 play_button = pygame.Rect(Width // 2 - 100, Height // 2 - 75, 200, 75)
@@ -173,15 +172,20 @@ async def main():
                             #Switching Background Colour
                             if bg_colour_button.collidepoint(event.pos):
                                 click_sound.play()
-                                if bg_colour == Light_Purple:
+                                if bg_colour == Light_Blue:
+                                    bg_colour = Light_Purple
+                                    Line_Colour = Line_Colour_Purple
+                                    config.current_theme = "purple"
+
+                                elif bg_colour == Light_Purple:
                                     bg_colour = Light_Red
                                     Line_Colour = Line_Colour_Red
                                     config.current_theme = "red"
 
                                 elif bg_colour == Light_Red:
-                                    bg_colour = Light_Purple
-                                    Line_Colour = Line_Colour_Purple
-                                    config.current_theme = "purple"
+                                    bg_colour = Light_Blue
+                                    Line_Colour = Line_Colour_Steel
+                                    config.current_theme = "blue"
         
                             elif back_button_settings_menu.collidepoint(event.pos):
                                 click2_sound.play()
@@ -256,6 +260,7 @@ async def main():
             elif current_screen == "game_over":
                 game_over()
                 game.display_winner()
+                game.display_game_mode()
             elif current_screen == "difficulty_selection":
                 difficulty_selection_menu()
 

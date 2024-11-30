@@ -24,7 +24,10 @@ class Game:
     #method to draw the lines on the screen
     def show_lines(self):
 
-        if config.current_theme == "purple":
+        if config.current_theme == "blue":
+            Line_Colour = Line_Colour_Steel
+
+        elif config.current_theme == "purple":
             Line_Colour = Line_Colour_Purple
 
         elif config.current_theme == "red":
@@ -87,7 +90,10 @@ class Game:
     
     def restart(self):
 
-        if config.current_theme == "purple":
+        if config.current_theme == "blue":
+            bg_colour = Light_Blue
+
+        elif config.current_theme == "purple":
             bg_colour = Light_Purple
 
         elif config.current_theme == "red":
@@ -136,3 +142,26 @@ class Game:
         
         screen.blit(text, (Width // 2 - text.get_width() // 2, Height // 2 - text.get_height() // 2 - 150))
     
+    #method to display current game mode and difficulty
+    def display_game_mode(self):
+        if self.game_mode == "pvp":
+            game_mode_text = font.render("Player vs Player", True, (0, 0, 0))
+        
+        elif self.game_mode == "ai_game":
+
+            game_mode_text = font.render("Player vs Computer", True, (0, 0, 0))
+
+            if self.ai_difficulty == "easy":
+                difficulty_text = font.render("Difficulty: Easy", True, (0, 0, 0))
+        
+            elif self.ai_difficulty == "medium":
+                difficulty_text = font.render("Difficulty: Medium", True, (0, 0, 0))
+
+            elif self.ai_difficulty == "impossible":
+                difficulty_text = font.render("Difficulty: Impossible", True, (0, 0, 0))
+
+            screen.blit(difficulty_text, (Width // 2 - difficulty_text.get_width() // 2, Height // 2 - difficulty_text.get_height() // 2 - 350))
+        
+        screen.blit(game_mode_text, (Width // 2 - game_mode_text.get_width() // 2, Height // 2 - game_mode_text.get_height() // 2 - 400))
+
+        
