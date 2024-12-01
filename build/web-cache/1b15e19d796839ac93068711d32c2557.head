@@ -13,12 +13,12 @@ x-proxy-cache: MISS
 X-GitHub-Request-Id: B1A2:3A3234:28FE09E:29BA5DC:674B90EA
 Accept-Ranges: bytes
 Age: 0
-Date: Sat, 30 Nov 2024 22:25:47 GMT
+Date: Sun, 01 Dec 2024 00:24:19 GMT
 Via: 1.1 varnish
-X-Served-By: cache-lon420096-LON
-X-Cache: MISS
+X-Served-By: cache-lon4240-LON
+X-Cache: HIT
 X-Cache-Hits: 0
-X-Timer: S1733005547.423853,VS0,VE87
+X-Timer: S1733012659.443129,VS0,VE96
 Vary: Accept-Encoding
-X-Fastly-Request-ID: c0d1fa6908be1fc96acae1a484edb7353ecddaa2
+X-Fastly-Request-ID: 4151a95f3e0028cc370b4d3cb0f08374b22c1abe
 

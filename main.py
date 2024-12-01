@@ -9,6 +9,11 @@
 import sys
 import pygame
 
+#Importing libraries for other classes as pygbag is crashing if not imported
+import numpy as np
+import random
+import copy
+
 # Importing asyncio to make the game's main method asynchronous. 
 # This allows for non-blocking operations, enabling compatibility with pygbag, 
 # which is used to build and deploy the game as a web application.
@@ -201,8 +206,8 @@ async def main():
                                 click2_sound.play()
                                 current_screen = "main_menu"
 
-                        #Player input for Game Screen in pvp mode      
-                        elif current_screen == "game" and game.game_mode == "pvp":
+                        #Player input for Game Screen in pvp mode and player 1's turn in ai mode      
+                        elif (current_screen == "game" and game.game_mode == "pvp") or (current_screen == "game" and game.game_mode == "ai_game" and game.player == 1):
                             #getting the row and column of the square clicked
                             pos = event.pos
                             row = pos[1] // Square_Size #y axis
@@ -222,31 +227,6 @@ async def main():
                                     if game.is_game_over():
                                         await asyncio.sleep(1.5)
                                         game.running = False
-                                        current_screen = "game_over"
-                        
-                        #Player input for Game Screen in ai mode 
-                        elif current_screen == "game" and game.game_mode == "ai_game" and game.player == 1:
-
-                            #getting the row and column of the square clicked
-                            pos = event.pos
-                            row = pos[1] // Square_Size #y axis
-                            col = pos[0] // Square_Size #x axis
-                            
-                            if 0 <= row < 3 and 0 <= col < 3:
-                                #allowing to mark the square only if it is empty
-                                if game.board.is_square_empty(row, col):
-                                    #marking the square with the player and updating the board (numpy grid)
-                                    game.board.mark_square(row, col, game.player)
-                                    game.mark_square_in_display(row, col)
-                                    mark_sound.play()
-                                    game.switch_player()
-                                    print(game.board.squares)
-                                    
-
-                                    #checking if the game is over
-                                    if game.is_game_over():
-                                        game.running = False
-                                        await asyncio.sleep(1.5)
                                         current_screen = "game_over"
                 
                         #Game Over Screen
